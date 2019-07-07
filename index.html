@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Choices</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="./assets/css/bootstrap.css" type="text/css" rel="stylesheet" media="all" />
+        <link type="text/css" rel="stylesheet" href="./assets/css/choices.css"/>
+        <script type="text/javascript" src="./assets/js/jquery-1.11.1.min.js"></script>
+        <script src="./assets/js/bootstrap.js"> </script>
+        <script type="text/javascript" src="./assets/js/choices.data.js"></script>
+    </head>
+    <body>
+        <div class="app">
+            <div class="row">
+                <div class="col-md-12">
+                    <label>Pick the month your were born on:</label>
+                    <select class="month">
+                        <option value=" none">None</option>
+                    </select>
+
+                </div>
+                <div class="col-md-12">
+                    <label>Pick the day you were born on:</label>
+                    <select class="day">
+                        <option value="none"> None </option>
+
+                    </select>
+                </div>
+
+                <div class="col-md-12">
+                    <label>Pick the first letter of your name:</label>
+                    <select class="first_letter">
+                        <option value="none"> None</option>
+                    </select>
+                </div>
+                <div class="output col-md-12">
+                    <p class="month"></p>
+                    <p class="day"></p>
+                    <p class="first_letter"></p>
+
+
+                </div>
+            </div>
+        </div>
+    <script type="text/javascript">
+
+        var addOption = function(obj, data){
+            $.each(data, function(index, value){
+                $(obj).append(
+                    '<option value="' + value + '"> ' + index + ' </option>'
+                )
+            });
+        }
+
+        $(document).ready(function(){
+            // {Initialize options
+            addOption("select.month", choiceDataObj.months)
+            addOption("select.day", choiceDataObj.days)
+            addOption("select.first_letter", choiceDataObj.first_letters)
+            // }
+
+            // { Listener for Month
+            $("select.month").change( function(e){
+                var month =$(this).val();
+
+                $("div.output p.month").text(month);
+
+                console.log("change :" + month);
+            } );
+            // }
+
+            // Listener for Day
+            $("select.day").change( function(e){
+                var day =$(this).val();
+
+                $("div.output p.day").text(day);
+
+                console.log("change :" + day);
+            } );
+            // }
+
+
+            // { Listener for First Letter
+            $("select.first_letter").change( function(e){
+                var first_letter =$(this).val();
+
+                $("div.output p.first_letter").text(first_letter);
+
+                console.log("change :" + first_letter);
+            } );
+            // }
+        });
+    </script>
+    </body>
+</html>
