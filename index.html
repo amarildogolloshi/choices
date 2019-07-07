@@ -46,12 +46,33 @@
     <script type="text/javascript">
 
         var addOption = function(obj, data){
+            var options = "";
             $.each(data, function(index, value){
+                var tmpIndex = index;
+                if(!isNaN(index)){
+                    tmpIndex = tmpIndex + 1;
+                }
+                options = options + '<option value="' + value + '"> ' + tmpIndex + ' </option>'
+            });
+            $(obj).append(options)
+        }
+
+
+        var addOption1 = function(obj, data){
+            var option = "";
+            $.each(data, function(index, value){
+                var tmpIndex = index;
+                if(!isNaN(index)){
+                    tmpIndex = tmpIndex + 1;
+                }
+
                 $(obj).append(
-                    '<option value="' + value + '"> ' + index + ' </option>'
+                    '<option value="' + value + '"> ' + tmpIndex + ' </option>'
                 )
             });
         }
+
+
 
         $(document).ready(function(){
             // {Initialize options
