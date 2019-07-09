@@ -8,41 +8,73 @@
         <link type="text/css" rel="stylesheet" href="./assets/css/choices.css"/>
         <script type="text/javascript" src="./assets/js/jquery-1.11.1.min.js"></script>
         <script src="./assets/js/bootstrap.js"> </script>
+        <script src="./assets/js/html2canvas.min.js"> </script>
         <script type="text/javascript" src="./assets/js/choices.data.js"></script>
     </head>
     <body>
-        <div class="app">
-            <div class="row">
-                <div class="col-md-12">
+
+    <div class="header">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Choices</h1>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="app">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="choose">
                     <label>Pick the month your were born on:</label>
                     <select class="month">
                         <option value=" none">None</option>
                     </select>
-
+                    <button class="btn confirm hide"><i class="glyphicon glyphicon-check"></i></button>
                 </div>
-                <div class="col-md-12">
+
+                <div class="output">
+                    <p class="month"></p>
+                </div>
+
+            </div>
+            <div class="col-md-12">
+                <div class="choose">
                     <label>Pick the day you were born on:</label>
                     <select class="day">
                         <option value="none"> None </option>
-
                     </select>
+                    <button class="btn confirm hide"><i class="glyphicon glyphicon-check"></i></button>
                 </div>
+                <div class="output col-md-12">
+                    <p class="day"></p>
+                </div>
+            </div>
 
-                <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="choose">
                     <label>Pick the first letter of your name:</label>
                     <select class="first_letter">
                         <option value="none"> None</option>
                     </select>
+                    <button class="btn confirm hide"><i class="glyphicon glyphicon-check"></i></button>
                 </div>
                 <div class="output col-md-12">
-                    <p class="month"></p>
-                    <p class="day"></p>
                     <p class="first_letter"></p>
-
-
                 </div>
             </div>
         </div>
+    </div>
+    <div class="footer">
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn reset"><i class="glyphicon glyphicon-refresh"></i></button>
+                <button class="btn save-as"><i class="glyphicon glyphicon-download"></i></button>
+            </div>
+        </div>
+
+    </div>
+
     <script type="text/javascript">
 
         var addOption = function(obj, data){
@@ -57,21 +89,31 @@
             $(obj).append(options)
         }
 
-
-        var addOption1 = function(obj, data){
-            var option = "";
-            $.each(data, function(index, value){
-                var tmpIndex = index;
-                if(!isNaN(index)){
-                    tmpIndex = tmpIndex + 1;
-                }
-
-                $(obj).append(
-                    '<option value="' + value + '"> ' + tmpIndex + ' </option>'
-                )
-            });
+        // { Creating dynamic link that automatically click
+        var  downloadURI = function(uri, name) {
+            var link = document.createElement("a");
+            link.download = name;
+            link.href = uri;
+            link.click();
+            //after creating link you should delete dynamic link
+            //clearDynamicLink(link);
         }
+        // }
 
+        // {Your modified code.
+        var printImage = function(div){
+            var img_output =  document.getElementsByClassName("img-out")[0];
+            html2canvas(div).then(function(canvas) {
+                // { Hide output
+//                img_output.appendChild(canvas);
+                // }
+                var myImage = canvas.toDataURL();
+                downloadURI(myImage, "choices.png");
+
+            });
+
+        }
+        // }
 
 
         $(document).ready(function(){
@@ -81,36 +123,49 @@
             addOption("select.first_letter", choiceDataObj.first_letters)
             // }
 
-            // { Listener for Month
-            $("select.month").change( function(e){
-                var month =$(this).val();
-
-                $("div.output p.month").text(month);
-
-                console.log("change :" + month);
-            } );
-            // }
-
-            // Listener for Day
-            $("select.day").change( function(e){
-                var day =$(this).val();
-
-                $("div.output p.day").text(day);
-
-                console.log("change :" + day);
+            // { Listener
+            $("select.month, select.day, select.first_letter").change( function(e){
+                var divChoose = $(this).parent();
+                var divOutput = $(this).parent().parent().find("div.output")
+                var pText =$(this).val();
+                divChoose.fadeOut("slow", function(){
+                    divOutput.fadeIn();
+                    divOutput.find("p").text(pText);
+                });
             } );
             // }
 
 
-            // { Listener for First Letter
-            $("select.first_letter").change( function(e){
-                var first_letter =$(this).val();
+            // { Confirm
+            $("button.confirm").click( function(e){
+                var divChoose = $(this).parent();
+                var divOutput = $(this).parent().parent().find("div.output")
+                var pText = divChoose.find("select").val();
 
-                $("div.output p.first_letter").text(first_letter);
-
-                console.log("change :" + first_letter);
+                divChoose.fadeOut("slow", function(){
+                    divOutput.fadeIn();
+                    divOutput.find("p").text(pText);
+                });
             } );
             // }
+
+            // { Reset
+            $("button.reset").click(function(e){
+                $("div.output").fadeOut("slow", function(){
+                    $('div.choose').fadeIn();
+                    $('button.confirm').removeClass("hide");
+                })
+            });
+            // }
+
+
+            // { Save as image
+            $("button.save-as").click(function(e){
+                var app = document.getElementsByClassName("app")[0];
+                printImage(app);
+            });
+            // }
+
         });
     </script>
     </body>

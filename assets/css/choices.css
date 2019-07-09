@@ -1,11 +1,33 @@
-
-
-
-div.output{
-    border: 1px solid #7a7c7f;
+html, body{
+    padding: 0;
+    margin: 0 10px 0 10px;
 }
 
-div.output p {
+h1 {
+    color: #d54d7b;
+    font-family: "Great Vibes", cursive;
+    font-size: 100px;
+    line-height: 95px;
+    font-weight: normal;
+    margin-bottom: 0px;
+    margin-top: 40px;
+    text-align: center;
+    text-shadow: 0 1px 1px #fff;
+}
+
+div.choose{
+    text-align: center;
+}
+
+div.choose label{
+    font-weight: 200;
+}
+
+div.output{
+}
+
+div.output p,
+div.choose label{
     margin: 0;
     color: #7a7c7f;
     font-size: 29px;
@@ -14,4 +36,9 @@ div.output p {
     text-align: center;
     text-shadow: 0 1px 1px #fff;
     padding-top: 20px;
+}
+
+div.footer {
+    text-align: center;
+    margin-top:20px;
 }
